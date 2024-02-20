@@ -6,9 +6,9 @@ import ArrowUpAndDown from"../components/icons/ArrowUpAndDown";
 import ScrollToTopButton from "../components/ScrollToTopButton";
 
 export default function DepartmentDetails() {
-  const departmentId = useParams<{ id: string }>().id;
+  const departmentCode = useParams<{ id: string }>().id;
 
-  const [department, setDepartment] = useState<Department | undefined>();
+  const [department, setDepartment] = useState<Department | undefined>();  
   const [towns, setTowns] = useState<Town[] | undefined>();
   const [cityNameOrder, setCityNameOrder] = useState<string>("asc");
   const [postalCodeOrder, setPostalCodeOrder] = useState<string>("asc");
@@ -20,7 +20,7 @@ export default function DepartmentDetails() {
       signal,
     });
     if (response.ok) {
-      const data = await response.json();
+      const data = await response.json();      
       setDepartment(data[0][0]);
     } else {
       console.error(`Request error: ${response.status}`);
@@ -33,7 +33,7 @@ export default function DepartmentDetails() {
 
     const fetchDepartmentData = async () => {
       await fetchDepartment(
-        `http://localhost:5000/departement/${departmentId}`,
+        `http://localhost:3000/department/${departmentCode}`,
         signal
       );
     };
@@ -41,7 +41,7 @@ export default function DepartmentDetails() {
     return () => {
       controller.abort();
     };
-  }, [departmentId]);
+  }, [departmentCode]);
 
   const fetchTowns = async (url: string, signal: AbortSignal) => {
     const response = await fetch(url, {
@@ -49,7 +49,8 @@ export default function DepartmentDetails() {
     });
     if (response.ok) {
       const data = await response.json();
-      setTowns(data[0]);
+      
+      setTowns(data);
     } else {
       console.error(`Request error: ${response.status}`);
     }
@@ -61,7 +62,7 @@ export default function DepartmentDetails() {
 
     const fetchTownsData = async () => {
       await fetchTowns(
-        `http://localhost:5000/departement/${departmentId}/towns`,
+        `http://localhost:3000/town/${departmentCode}`,
         signal
       );
     };
@@ -69,7 +70,7 @@ export default function DepartmentDetails() {
     return () => {
       controller.abort();
     };
-  }, [departmentId]);
+  }, [departmentCode]);
 
   const handleCityNameOrderChange = () => {
     cityNameOrder ==="asc"

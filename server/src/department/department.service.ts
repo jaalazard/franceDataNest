@@ -14,9 +14,9 @@ export class DepartmentService {
     return this.DepartmentRepository.find();
   }
 
-  async findOneByCode(code: string): Promise<Department> {
+  async findOneByCode(department_code: string): Promise<Department> {
     return this.DepartmentRepository.findOne({
-      where: { departement_code: code },
+      where: { departement_code: department_code },
     });
   }
 

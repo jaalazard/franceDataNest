@@ -6,7 +6,6 @@ import { DepartmentModule } from './department/department.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { databaseConfig } from './config/database.config';
-import { TownController } from './town/town.controller';
 import { TownModule } from './town/town.module';
 
 @Module({
@@ -20,7 +19,7 @@ import { TownModule } from './town/town.module';
     DepartmentModule,
     TownModule,
   ],
-  controllers: [AppController, TownController],
+  controllers: [AppController],
   providers: [AppService],
 })
 export class AppModule {}
