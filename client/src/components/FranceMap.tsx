@@ -22,7 +22,7 @@ export default function FranceMap() {
     const controller = new AbortController();
     const signal = controller.signal;
 
-    fetchRegions(`http://localhost:5000/region/`, signal).catch((error) => {
+    fetchRegions(`http://localhost:3000/region/`, signal).catch((error) => {
       console.error(error);
     });
 

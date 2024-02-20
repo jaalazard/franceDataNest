@@ -4,8 +4,11 @@ import {
   PrimaryGeneratedColumn,
   ManyToOne,
   JoinColumn,
+  OneToMany,
+  Index,
 } from 'typeorm';
 import { Region } from '../region/region.entity';
+import { Town } from '../town/town.entity';
 
 @Entity()
 export class Department {
@@ -13,7 +16,8 @@ export class Department {
   departement_id: number;
 
   @Column()
-  departement_code: number;
+  @Index()
+  departement_code: string;
 
   @Column({ length: 35 })
   departement_nom: string;
@@ -27,4 +31,7 @@ export class Department {
     referencedColumnName: 'region_code',
   })
   region: Region;
+
+  @OneToMany(() => Town, (town) => town.ville_departement)
+  towns: Town[];
 }

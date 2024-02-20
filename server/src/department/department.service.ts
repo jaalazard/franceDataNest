@@ -1,4 +1,20 @@
 import { Injectable } from '@nestjs/common';
+import { Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Department } from '../department/department.entity';
 
 @Injectable()
-export class DepartmentService {}
+export class DepartmentService {
+  constructor(
+    @InjectRepository(Department)
+    private DepartmentRepository: Repository<Department>,
+  ) {}
+
+  async findAll(): Promise<Department[]> {
+    return this.DepartmentRepository.find();
+  }
+
+  async findOneByCode(departement_code: number): Promise<Department> {
+    return this.DepartmentRepository.findOne({ where: { departement_code } });
+  }
+}

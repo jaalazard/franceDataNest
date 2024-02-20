@@ -25,7 +25,7 @@ export default function RegionDetails() {
     const signal = controller.signal;
 
     const fetchRegiondata = async () => {
-      await fetchRegion(`http://localhost:5000/region/${regionId}`, signal);
+      await fetchRegion(`http://localhost:3000/region/${regionId}`, signal);
     };
     fetchRegiondata();
     return () => {
@@ -50,7 +50,7 @@ export default function RegionDetails() {
     const signal = controller.signal;
 
     fetchDepartments(
-      `http://localhost:5000/region/${regionId}/departements`,
+      `http://localhost:3000/region/${regionId}/department`,
       signal
     ).catch((error) => {
       console.error(error);
