@@ -9,9 +9,4 @@ export class RegionController {
   findAll() {
     return this.regionService.findAll();
   }
-
-  @Get(':region_code/department')
-  findOneByCode(region_code: string) {
-    return this.regionService.findOneByCode(region_code);
-  }
 }

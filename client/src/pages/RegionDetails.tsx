@@ -50,7 +50,7 @@ export default function RegionDetails() {
     const signal = controller.signal;
 
     fetchDepartments(
-      `http://localhost:3000/region/${regionId}/department`,
+      `http://localhost:3000/department/${regionId}/department`,
       signal
     ).catch((error) => {
       console.error(error);

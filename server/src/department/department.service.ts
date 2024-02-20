@@ -14,7 +14,15 @@ export class DepartmentService {
     return this.DepartmentRepository.find();
   }
 
-  async findOneByCode(departement_code: number): Promise<Department> {
-    return this.DepartmentRepository.findOne({ where: { departement_code } });
+  async findOneByCode(code: string): Promise<Department> {
+    return this.DepartmentRepository.findOne({
+      where: { departement_code: code },
+    });
+  }
+
+  async findAllByRegionCode(region_code: string): Promise<Department[]> {
+    return this.DepartmentRepository.find({
+      where: { departement_region: region_code },
+    });
   }
 }

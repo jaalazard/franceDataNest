@@ -14,6 +14,8 @@ export class RegionService {
   }
 
   async findOneByCode(region_code: string): Promise<Region> {
-    return this.regionRepository.findOne({ where: { region_code } });
+    return this.regionRepository.findOne({
+      where: { region_code: region_code },
+    });
   }
 }
