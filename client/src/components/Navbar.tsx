@@ -1,30 +1,11 @@
-import { Link, Navigate } from "react-router-dom";
-import { useAuth } from "../../contexts/AuthContext";
+import { Link } from "react-router-dom";
 import { useState } from "react";
 import BurgerMenu from "./icons/BurgerMenu";
 import Close from "./icons/Close";
+
 export default function Navbar() {
   const [isBurgerMenuOpen, setIsBurgerMenuOpen] = useState<boolean>(false);
   const [isTitleHovered, setIsTitleHovered] = useState<boolean>(false);
-  const { isLoggedIn } = useAuth() as { isLoggedIn: boolean };
-  const { setIsLoggedIn } = useAuth();
-
-  const handleLogout = async () => {
-    try {
-      const response = await fetch("http://localhost:5000/auth/logout", {
-        method: "POST",
-        credentials: "include",
-      });
-      if (response.ok) {
-        setIsLoggedIn(false);
-        <Navigate to="/" />;
-      } else {
-        console.error("Échec de la déconnexion");
-      }
-    } catch (error) {
-      console.error("Erreur lors de la déconnexion", error);
-    }
-  };
 
   const handleNavBarToggle = () => {
     const navbar = document.getElementById("navbar-default");
@@ -86,41 +67,32 @@ export default function Navbar() {
           id="navbar-default"
         >
           <ul className="font-bold flex flex-row md:flex-row md:space-x-8 rtl:space-x-reverse">
-            {!isLoggedIn ? (
-              <li>
-                <Link
-                  to="/register"
-                  className="block py-2 px-3 text-dark hover:text-light"
-                >
-                  Inscription
-                </Link>
-              </li>
-            ) : (
-              <li>
-                <Link
-                  to="/profile"
-                  className="block py-2 px-3 text-dark hover:text-light"
-                >
-                  Mon compte
-                </Link>
-              </li>
-            )}
             <li>
-              {isLoggedIn ? (
-                <button
-                  className="block py-2 px-3 text-dark hover:text-light"
-                  onClick={handleLogout}
-                >
-                  Déconnexion
-                </button>
-              ) : (
-                <Link
-                  to="/login"
-                  className="block py-2 px-3 text-dark hover:text-light"
-                >
-                  Connexion
-                </Link>
-              )}
+              <Link
+                to="/register"
+                className="block py-2 px-3 text-dark hover:text-light"
+              >
+                Inscription
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/profile"
+                className="block py-2 px-3 text-dark hover:text-light"
+              >
+                Mon compte
+              </Link>
+            </li>
+            <li>
+              <button className="block py-2 px-3 text-dark hover:text-light">
+                Déconnexion
+              </button>
+              <Link
+                to="/login"
+                className="block py-2 px-3 text-dark hover:text-light"
+              >
+                Connexion
+              </Link>
             </li>
           </ul>
         </div>

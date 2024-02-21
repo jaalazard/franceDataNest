@@ -1,6 +1,8 @@
 export interface AuthProviderState {
   isLoggedIn: boolean;
   setIsLoggedIn: (value: boolean) => void;
+  user: User;
+  setUser: (value: User) => void;
 }
 
 export interface User {

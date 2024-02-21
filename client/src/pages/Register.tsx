@@ -1,40 +1,13 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import Layout from "../components/Layout";
-import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../contexts/AuthContext";
 import Alert from "../components/icons/Alert";
 
 export default function Register() {
-  const navigate = useNavigate();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
-  const { setIsLoggedIn } = useAuth();
   const [errors, setErrors] = useState<string[]>([]);
-
-  const handleRegisterSubmit = async (
-    event: React.FormEvent<HTMLFormElement>
-  ) => {
-    event.preventDefault();
-    const res = await fetch("http://localhost:5000/auth/register", {
-      method: "POST",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ email, password, confirmPassword }),
-    });
-    const data = await res.json();
-
-    if (data.isLoggedIn) {
-      setIsLoggedIn(true);
-      navigate("/");
-    }
-    if (data.errors) {
-      setErrors(data.errors);
-    }
-  };
 
   return (
     <Layout>
@@ -58,7 +31,6 @@ export default function Register() {
                 S'inscrire
               </h1>
               <form
-                onSubmit={handleRegisterSubmit}
                 className="space-y-4 md:space-y-6"
                 action="#"
               >

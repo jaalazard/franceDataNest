@@ -2,8 +2,8 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import Layout from "../components/Layout";
-import { useAuth } from "../../contexts/AuthContext";
 import Alert from "../components/icons/Alert";
+import { useAuth } from "../contexts/AuthContext";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -14,7 +14,7 @@ export default function Login() {
 
   const handleLoginSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const res = await fetch("http://localhost:5000/auth/login", {
+    const res = await fetch("http://localhost:3000/auth/login", {
       method: "POST",
       credentials: "include",
       headers: {
