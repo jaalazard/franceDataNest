@@ -45,6 +45,15 @@ export class AuthService {
     });
   }
 
+  public async logout(@Res() res: Response): Promise<any | { status: number }> {
+    res.cookie('jwt', '', {
+      httpOnly: true,
+      sameSite: 'lax',
+      expires: new Date(0),
+    });
+    res.status(200).send('Déconnecté avec succès');
+  }
+
   public async register(user: User): Promise<any> {
     user.password = this.hash(user.password);
     return this.userService.saveUser(user);
