@@ -45,6 +45,43 @@ export class AuthService {
     });
   }
 
+  public async register(
+    user: User,
+    @Res() res: Response,
+  ): Promise<any | { status: number }> {
+    try {
+      user.password = this.hash(user.password);
+      if (await this.userService.getUserByEmail(user.email)) {
+        return {
+          isLoggedIn: false,
+          error: 'Cet email est déjà utilisé.',
+        };
+      }
+      await this.userService.saveUser(user);
+      const payload = `${user.email}`;
+
+      const accessToken = this.jwtService.sign(payload);
+      res.cookie('jwt', accessToken, {
+        httpOnly: true,
+        sameSite: 'lax',
+        maxAge: 3600000,
+      });
+
+      return {
+        token: accessToken,
+        isLoggedIn: true,
+        user: user,
+      };
+    } catch (error) {
+      console.error("Une erreur s'est produite lors de l'inscription :", error);
+      return {
+        isLoggedIn: false,
+        error:
+          "Une erreur s'est produite lors de l'inscription. Veuillez réessayer.",
+      };
+    }
+  }
+
   public async logout(@Res() res: Response): Promise<any | { status: number }> {
     res.cookie('jwt', '', {
       httpOnly: true,
@@ -52,11 +89,6 @@ export class AuthService {
       expires: new Date(0),
     });
     res.status(200).send('Déconnecté avec succès');
-  }
-
-  public async register(user: User): Promise<any> {
-    user.password = this.hash(user.password);
-    return this.userService.saveUser(user);
   }
 
   async checkAuthentication(
@@ -73,7 +105,6 @@ export class AuthService {
       const decodedToken = this.jwtService.verify(token);
       const email = decodedToken;
       const user = await this.userService.getUserByEmail(email);
-
       if (user) {
         return {
           isLoggedIn: true,

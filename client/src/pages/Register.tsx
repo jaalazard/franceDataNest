@@ -1,13 +1,46 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Layout from "../components/Layout";
 import Alert from "../components/icons/Alert";
+import { useAuth } from "../contexts/AuthContext";
 
 export default function Register() {
+  const navigate = useNavigate();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
   const [errors, setErrors] = useState<string[]>([]);
+  const { setIsLoggedIn } = useAuth();
+
+  const handleRegisterSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+    if (password !== confirmPassword) {
+      setErrors(["Les mots de passe ne correspondent pas"]);
+      return;
+    }
+    const res = await fetch("http://localhost:3000/auth/register", {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+
+      body: JSON.stringify({
+        email,
+        password,
+      }),
+    });
+    const data = await res.json();
+
+    if (data.errors) {
+      setErrors(data.errors);
+    }
+    if (data.isLoggedIn === true) {
+      setIsLoggedIn(true);
+      navigate("/region/CVL");
+    }
+  };
 
   return (
     <Layout>
@@ -21,16 +54,17 @@ export default function Register() {
             FranceData
           </Link>
           {errors.map((error) => (
-          <div key={error} className="text-red-500 flex">
-            <Alert /> {error}
-          </div>
-        ))}
+            <div key={error} className="text-red-500 flex">
+              <Alert /> {error}
+            </div>
+          ))}
           <div className="w-full bg-light shadow md:mt-0 sm:max-w-md xl:p-0">
             <div className="p-6 space-y-4 rounded-lg md:space-y-6 sm:p-8 bg-primary">
               <h1 className="text-xl font-bold leading-tight tracking-tight text-dark md:text-2xl ">
                 S'inscrire
               </h1>
               <form
+                onSubmit={handleRegisterSubmit}
                 className="space-y-4 md:space-y-6"
                 action="#"
               >

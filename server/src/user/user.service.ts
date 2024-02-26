@@ -15,7 +15,6 @@ export class UserService {
 
   async getUser(id: number): Promise<User[]> {
     return await this.userRepository.find({
-      // Je ne veux pas retouner le MDP
       select: ['firstname', 'lastname', 'email'],
       where: [{ id: id }],
     });

@@ -13,7 +13,8 @@ export function AuthProvider({
   children: React.ReactNode;
 }) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [user, setUser] = useState({} as User);
+  
+  const [user, setUser] = useState({} as User);  
   const location = useLocation();
   useEffect(() => {
     const abortController = new AbortController();
